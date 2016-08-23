@@ -10,7 +10,8 @@ All scripts support provide help via a `-h` or, equivalently, `--help` option.
 
 ---
 
-** copy_fastqs.sh **
+copy_fastqs.sh
+==============
 
 Simple utility to copy fastq files from paired-end runs from one or more 
 Illumina-style output folders to a target folder. This is
@@ -41,7 +42,8 @@ Each copy is performed in the background. For a very large number of files, you 
 
 ---
 
-** generate_qcs.sh **
+generate_qcs.sh
+===============
 
 Utility to generate quality control files for multiple fastq files, using [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) version 0.11.3.
 
@@ -69,7 +71,8 @@ Runs as a single process. Use the `-t` (`--threads`) option to specify the numbe
 
 ---
 
-** align_mRNA.sh **
+align_mRNA.sh
+=============
 
 Aligns paired-end reads of mRNA samples stored in fastq.gz files, producing bam files as output, using [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) version 2.0.3-beta.
 
@@ -92,7 +95,8 @@ Syntax:
     
 ---
 
-** sort_and_index_bams.sh **
+sort_and_index_bams.sh
+======================
 
 Sorts and indexes a collection of bam files, using [samtools](http://www.htslib.org/) version 1.3.1.
 
@@ -114,7 +118,8 @@ Syntax:
     
 ---
 
-** mark_duplicates.sh **
+mark_duplicates.sh
+==================
 
 Marks duplicates in a sorted, indexed bam file, using [picard](http://broadinstitute.github.io/picard/) version 2.0.1, [Java development kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.8.0_74. Resulting bam files are re-indexed using [samtools](http://www.htslib.org/) version 1.3.1.
 
