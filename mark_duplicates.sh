@@ -5,8 +5,8 @@
 ## is the original file name.
 
 
-#java_bin=/opt/jdk1.8.0_74/bin/java
-#picard_tools=/opt/picard-tools-2.0.1/picard.jar
+#java_bin=/opt/jdk1.8.0_102/bin/java
+#picard_tools=/opt/picard-tools-2.6.0/picard.jar
 #samtools=/opt/samtools-1.3/samtools
 
 java_bin=$JAVA_HOME/bin/java
