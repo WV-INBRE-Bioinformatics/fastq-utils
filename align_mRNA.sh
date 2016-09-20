@@ -6,8 +6,8 @@
 ## Data are output to the specified output folder, using the file name without _R1.fastq.gz
 ## as the name of the resulting bam file, and with a .log extension for the standard output. 
 
-#hisat=/opt/hisat2-2.0.3-beta/hisat2
-#samtools=/opt/samtools-1.3/samtools
+#hisat=/opt/hisat2-2.0.4/hisat2
+#samtools=/opt/samtools-1.3.1/samtools
 hisat=$HISAT
 samtools=$SAMTOOLS
 center=Marshall_Genomics_Core
