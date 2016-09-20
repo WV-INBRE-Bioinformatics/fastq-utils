@@ -55,8 +55,8 @@ Assumptions:
 Requirements:
 -------------
 
-1. [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) version 0.11.3.
-2. [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.8.0_74
+1. [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) version 0.11.5.
+2. [Java Development Kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.8.0_102
 
 
 Syntax:
@@ -74,7 +74,7 @@ Runs as a single process. Use the `-t` (`--threads`) option to specify the numbe
 align_mRNA.sh
 =============
 
-Aligns paired-end reads of mRNA samples stored in fastq.gz files, producing bam files as output, using [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) version 2.0.3-beta.
+Aligns paired-end reads of mRNA samples stored in fastq.gz files, producing bam files as output, using [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) version 2.0.4.
 
 Assumptions:
 ------------
@@ -85,7 +85,7 @@ Assumptions:
 Requirements:
 -------------
 
-1. [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) version 2.0.3-beta.
+1. [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) version 2.0.4.
 2. [samtools](http://www.htslib.org/) version 1.3.1.
 
 Syntax:
@@ -121,7 +121,7 @@ Syntax:
 mark_duplicates.sh
 ==================
 
-Marks duplicates in a sorted, indexed bam file, using [picard](http://broadinstitute.github.io/picard/) version 2.0.1, [Java development kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.8.0_74. Resulting bam files are re-indexed using [samtools](http://www.htslib.org/) version 1.3.1.
+Marks duplicates in a sorted, indexed bam file, using [picard](http://broadinstitute.github.io/picard/) version 2.6.0, [Java development kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.8.0_102. Resulting bam files are re-indexed using [samtools](http://www.htslib.org/) version 1.3.1.
 
 Assumptions:
 ------------
@@ -131,8 +131,8 @@ Assumptions:
 Requirements:
 -------------
 
-1. [picard](http://broadinstitute.github.io/picard/) version 2.0.1 
-2. [Java development kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.8.0_74.
+1. [picard](http://broadinstitute.github.io/picard/) version 2.6.0 
+2. [Java development kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.8.0_102.
 3. [samtools](http://www.htslib.org/) version 1.3.1.
 
 Syntax:
