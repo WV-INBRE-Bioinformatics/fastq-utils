@@ -139,3 +139,21 @@ Syntax:
 -------
 
     mark_duplicates.sh [options] source_dir dest_dir
+
+trim.sh
+=======
+
+Trims paired files *_R1.fastq.gz and *_R2.fastq.gz in `source_dir`, outputting trimmed files with the same name as the original files to `dest_dir` and unpaired reads after trimming to files with the same name in `unpaired_dir`. Uses [trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) version 0.36 to perform trimming. Optionally performs adapter trimming using the paired-end adapter protocol, and the file specified by `adapterFile`. Adapter trimming is omitted if this option is omitted. Performs leading and trailing base trimming with minimum quality score of 3, sliding window trimming with window size of 4 and required quality of 15, and removes reads with a trimmed length of less than 25.
+
+Requirements:
+-------------
+
+1. [trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) version 0.36
+2. [Java development kit](http://www.oracle.com/technetwork/java/javase/downloads/index.html) version 1.8.0_102.
+ 
+
+Syntax:
+-------
+
+    trim.sh [options] source_dir dest_dir unpaired_dir
+    
