@@ -16,6 +16,7 @@ function usage {
   echo "    -a, --adapterFile:    adapterFile (defaults to none, so no adapter trimming performed)"
   echo '    -t, --trimmomatic:    trimmomatic jar file (defaults to $TRIMMOMATIC)'
   echo '    -j, --java:           Java installation directory (defaults to $JAVA_HOME)'
+  echo '    -x, --maxJVMs:        Maximum number of JVMs to create at one time (defaults to no maximum)'
 }
 
 while [ $# -gt 3 ] ; do
@@ -33,6 +34,10 @@ while [ $# -gt 3 ] ; do
                           ;;
     -j | --java         ) shift
                           java=$1
+                          shift
+                          ;;
+    -x | --maxJVMs      ) shift
+                          maxJVMs=$1
                           shift
                           ;;
     *                   ) echo "Unknown option $1"
@@ -73,20 +78,33 @@ if [ ${adapterFile} ] ; then
 fi
 trims="${trims}LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:25"
 
+r1Files=( ${source_dir}/*_R1.fastq.gz )
+numFiles=${#r1Files[@]}
 
-for f in ${source_dir}/*_R1.fastq.gz; do
-    samp=$(basename $f)
-    samp=${samp%_R1.fastq.gz}
-    
-    (
-      ${java}/bin/java -jar ${trimmomatic} PE ${source_dir}/${samp}_R1.fastq.gz ${source_dir}/${samp}_R2.fastq.gz ${dest_dir}/${samp}_R1.fastq.gz ${unpaired_dir}/${samp}_R1.fastq.gz ${dest_dir}/${samp}_R2.fastq.gz ${unpaired_dir}/${samp}_R2.fastq.gz ${trims}
-      exit_code=$?
-      if [ "${exit_code}"=="0" ]; then
-        echo "$(date): Trimming ${samp} complete"
-      else 
-        echo "$(date): Trimming ${samp} failed"
-      fi
-      exit $exit_code
-    )&
-done 
-wait
+if [ ! ${maxJVMs} ]; then
+    maxJVMs=${numFiles}
+fi
+
+start=0
+
+while [ $start -lt $numFiles ] ; do 
+
+	for f in ${r1Files[@]:start:maxJVMs}; do
+		samp=$(basename $f)
+		samp=${samp%_R1.fastq.gz}
+	
+		(
+		  ${java}/bin/java -jar ${trimmomatic} PE ${source_dir}/${samp}_R1.fastq.gz ${source_dir}/${samp}_R2.fastq.gz ${dest_dir}/${samp}_R1.fastq.gz ${unpaired_dir}/${samp}_R1.fastq.gz ${dest_dir}/${samp}_R2.fastq.gz ${unpaired_dir}/${samp}_R2.fastq.gz ${trims}
+		  exit_code=$?
+		  if [ "${exit_code}"=="0" ]; then
+			echo "$(date): Trimming ${samp} complete"
+		  else 
+			echo "$(date): Trimming ${samp} failed"
+		  fi
+		  exit $exit_code
+		)&
+	done
+	wait
+
+    start=$[ $start + $maxJVMs ]
+done
