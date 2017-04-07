@@ -20,6 +20,7 @@ function usage {
   echo '    -s, --samtools: samtools executable (defaults to $SAMTOOLS)'
   echo '    -p, --picard:   picard jar file (defaults to $PICARD)'
   echo '    -j, --java:     Java runtime executable (defaults to $JAVA_HOME/bin/java)'
+  echo '    -x, --maxJVMs:  Maximum number of JVMs (default: no maximum)'
 }
 
 while [ $# -gt 2 ]; do
@@ -37,6 +38,10 @@ while [ $# -gt 2 ]; do
                         ;;
       -j | --java     ) shift
                         java_bin=$1
+                        shift
+                        ;;
+      -x | --maxJVMs  ) shift
+                        maxJVMs=$1
                         shift
                         ;;
       *               ) echo "Unknown option $1"
@@ -68,13 +73,29 @@ fi
 
 mkdir -p ${dest_dir}
 
-for f in ${source_dir}/*.bam ; do 
-  filename=$(basename $f)
-  sample=${filename%.bam}
-  (
-    ${java_bin} -jar ${picard_tools} MarkDuplicates QUIET=true I=${f} O=${dest_dir}/${filename} M=${dest_dir}/${sample}_dup_metrics.txt
-    ${samtools} index ${dest_dir}/${filename}
-  ) &
-done
+files=( ${source_dir}/*.bam )
+numFiles=${#files[@]}
 
-wait
+if [ ! ${maxJVMs} ]; then
+    maxJVMs=${numFiles}
+fi
+
+start=0
+
+while [ $start -lt $numFiles ] ; do 
+
+
+	for f in ${files[@]:start:maxJVMs}; do 
+	  filename=$(basename $f)
+	  sample=${filename%.bam}
+	  (
+		${java_bin} -jar ${picard_tools} MarkDuplicates QUIET=true I=${f} O=${dest_dir}/${filename} M=${dest_dir}/${sample}_dup_metrics.txt
+		${samtools} index ${dest_dir}/${filename}
+	  ) &
+	done
+
+	wait
+	
+	start=$[ $start + $maxJVMs ]
+
+done
