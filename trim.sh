@@ -17,6 +17,7 @@ function usage {
   echo '    -t, --trimmomatic:    trimmomatic jar file (defaults to $TRIMMOMATIC)'
   echo '    -j, --java:           Java installation directory (defaults to $JAVA_HOME)'
   echo '    -x, --maxJVMs:        Maximum number of JVMs to create at one time (defaults to no maximum)'
+  echo '    -c, --initialCrop     Crop reads to this length prior to adapter trimming (default: no cropping)'
 }
 
 while [ $# -gt 3 ] ; do
@@ -40,6 +41,10 @@ while [ $# -gt 3 ] ; do
                           maxJVMs=$1
                           shift
                           ;;
+    -c | --initialCrop  ) shift
+                          crop=$1
+			  shift
+			  ;;
     *                   ) echo "Unknown option $1"
                           usage
                           exit 1
@@ -73,8 +78,12 @@ fi
 mkdir -p ${dest_dir}
 mkdir -p ${unpaired_dir}
 
+if [ ${crop} ] ; then
+  trims="CROP:${crop} "
+fi
+
 if [ ${adapterFile} ] ; then
-  trims="ILLUMINACLIP:${adapterFile}:2:30:10 "
+  trims="${trims}ILLUMINACLIP:${adapterFile}:2:30:10 "
 fi
 trims="${trims}LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:25"
 
