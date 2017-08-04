@@ -18,6 +18,7 @@ function usage {
   echo '    -j, --java:           Java installation directory (defaults to $JAVA_HOME)'
   echo '    -x, --maxJVMs:        Maximum number of JVMs to create at one time (defaults to no maximum)'
   echo '    -c, --initialCrop     Crop reads to this length prior to adapter trimming (default: no cropping)'
+  echo '    -H, --headCrop        Trim this many bases from the head of the read'
 }
 
 while [ $# -gt 3 ] ; do
@@ -43,6 +44,10 @@ while [ $# -gt 3 ] ; do
                           ;;
     -c | --initialCrop  ) shift
                           crop=$1
+			  shift
+			  ;;
+    -H | --headCrop	) shift
+    			  headCrop=$1
 			  shift
 			  ;;
     *                   ) echo "Unknown option $1"
@@ -80,6 +85,10 @@ mkdir -p ${unpaired_dir}
 
 if [ ${crop} ] ; then
   trims="CROP:${crop} "
+fi
+
+if [ ${headCrop} ] ; then
+  trims="${trims}HEADCROP:${headCrop} "
 fi
 
 if [ ${adapterFile} ] ; then
