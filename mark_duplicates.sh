@@ -89,7 +89,7 @@ while [ $start -lt $numFiles ] ; do
 	  filename=$(basename $f)
 	  sample=${filename%.bam}
 	  (
-		${java_bin} -jar ${picard_tools} -Xmx10g MarkDuplicates QUIET=true I=${f} O=${dest_dir}/${filename} M=${dest_dir}/${sample}_dup_metrics.txt
+		${java_bin} -Xmx10g -jar ${picard_tools} MarkDuplicates QUIET=true I=${f} O=${dest_dir}/${filename} M=${dest_dir}/${sample}_dup_metrics.txt
 		${samtools} index ${dest_dir}/${filename}
 	  ) &
 	done
